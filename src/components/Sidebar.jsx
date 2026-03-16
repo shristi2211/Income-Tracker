@@ -22,7 +22,7 @@ export default function Sidebar({ isOpen, onClose }) {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex w-[280px] flex-shrink-0 flex-col h-screen sticky top-0 bg-[#0b0f14] border-r border-slate-800/70 z-40">
+      <aside className="hidden md:flex w-[280px] flex-shrink-0 flex-col h-screen sticky top-0 bg-[#0b0f14] border-r border-slate-800/70 z-40">
 
         {/* Logo */}
         <div className="flex items-center px-8 h-24 border-b border-slate-800/60">
@@ -95,7 +95,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
       {/* Mobile Sidebar */}
       <div
-        className={`lg:hidden fixed inset-0 z-50 transition-all duration-300 ${
+        className={`md:hidden fixed inset-0 z-50 transition-all duration-300 ${
           isOpen ? 'visible' : 'invisible'
         }`}
       >
