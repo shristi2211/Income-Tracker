@@ -29,12 +29,12 @@ export default function DonutChartCard() {
   const total = outflowByCategory.reduce((s, d) => s + d.value, 0);
 
   return (
-    <div className="bg-[#0f1523]/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-6 shadow-xl h-full flex flex-col animate-fade-in" style={{ animationDelay: '300ms' }}>
-      <div className="mb-4">
+    <div className="bg-[#0f1523]/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-6 shadow-xl h-full flex flex-col animate-fade-in overflow-hidden" style={{ animationDelay: '300ms' }}>
+      <div className="mb-6 shrink-0">
         <h3 className="text-sm font-semibold text-white">Expense Distribution</h3>
         <p className="text-xs text-slate-500 mt-0.5">Where your money goes</p>
       </div>
-      <div className="h-[220px]">
+      <div className="flex-1 min-h-[220px] max-h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -58,7 +58,7 @@ export default function DonutChartCard() {
         </ResponsiveContainer>
       </div>
       {/* Legend */}
-      <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-4">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-3 mt-6 shrink-0">
         {outflowByCategory.map((entry, i) => (
           <div key={entry.name} className="flex items-center gap-2 text-xs">
             <span

@@ -19,8 +19,8 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function AreaChartCard() {
   return (
-    <div className="bg-[#0f1523]/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-6 shadow-xl animate-fade-in" style={{ animationDelay: '200ms' }}>
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-[#0f1523]/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-6 shadow-xl h-full flex flex-col animate-fade-in overflow-hidden" style={{ animationDelay: '200ms' }}>
+      <div className="flex items-center justify-between mb-8 shrink-0">
         <div>
           <h3 className="text-sm font-semibold text-white">Income vs Expense Trend</h3>
           <p className="text-xs text-slate-500 mt-0.5">Last 30 days</p>
@@ -36,7 +36,7 @@ export default function AreaChartCard() {
           </span>
         </div>
       </div>
-      <div className="h-[280px] md:h-[320px]">
+      <div className="flex-1 min-h-[280px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={dailyTrends} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
             <defs>
