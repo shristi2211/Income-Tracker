@@ -22,8 +22,8 @@ export default function TopBar({ onMenuClick, onQuickAdd }) {
           <Menu size={20} />
         </button>
         <div>
-          <h2 className="text-sm font-semibold text-white">Welcome back,</h2>
-          <p className="text-xs text-slate-500">{user?.name || 'User'}</p>
+          <h1 className="text-xl font-bold text-white tracking-tight">Welcome back, {user?.name || 'User'}</h1>
+          <p className="text-xs text-slate-500 mt-0.5">Track your income and expenses at a glance</p>
         </div>
       </div>
 

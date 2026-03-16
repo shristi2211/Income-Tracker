@@ -9,15 +9,6 @@ export default function DashboardPage() {
   
   return (
     <div className="flex flex-col gap-8">
-      {/* Page Header */}
-      <div>
-        <h1 className="text-xl font-bold text-white tracking-tight">
-          Welcome back, {user?.name || 'User'}
-        </h1>
-        <p className="text-xs text-slate-500 mt-1">
-          Track your income and expenses at a glance
-        </p>
-      </div>
 
       {/* KPI Cards */}
       <KPICards />
