@@ -6,8 +6,7 @@ const cards = [
     title: 'Total Balance',
     value: formatCurrency(totalBalance),
     icon: Wallet,
-    iconBg: 'bg-emerald-500/15',
-    iconColor: 'text-emerald-400',
+    color: '#10b981',
     change: '+12.5%',
     changePositive: true,
   },
@@ -15,8 +14,7 @@ const cards = [
     title: 'Monthly Inflow',
     value: formatCurrency(totalInflow),
     icon: TrendingUp,
-    iconBg: 'bg-emerald-500/15',
-    iconColor: 'text-emerald-400',
+    color: '#10b981',
     change: '+8.2%',
     changePositive: true,
   },
@@ -24,8 +22,7 @@ const cards = [
     title: 'Monthly Outflow',
     value: formatCurrency(totalOutflow),
     icon: TrendingDown,
-    iconBg: 'bg-rose-500/15',
-    iconColor: 'text-rose-400',
+    color: '#f43f5e',
     change: '+3.1%',
     changePositive: false,
   },
@@ -33,8 +30,7 @@ const cards = [
     title: 'Savings Rate',
     value: `${savingsRate}%`,
     icon: PiggyBank,
-    iconBg: 'bg-violet-500/15',
-    iconColor: 'text-violet-400',
+    color: '#8b5cf6',
     change: '+2.4%',
     changePositive: true,
   },
@@ -48,25 +44,36 @@ export default function KPICards() {
         return (
           <div
             key={card.title}
-            className="bg-[#0f1523]/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-6 shadow-xl hover:border-slate-700 hover:bg-[#131c31] transition-all duration-300 animate-fade-in group"
-            style={{ animationDelay: `${idx * 80}ms` }}
+            className="rounded-[24px] p-5 lg:p-6 transition-all duration-300 animate-fade-in group hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+            style={{
+              animationDelay: `${idx * 80}ms`,
+              background: 'rgba(255,255,255,0.03)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
+            }}
           >
             <div className="flex items-start justify-between mb-4">
-              <div className={`p-2.5 rounded-lg ${card.iconBg}`}>
-                <Icon size={18} className={card.iconColor} />
+              <div
+                className="p-2.5 rounded-xl"
+                style={{ backgroundColor: `${card.color}12` }}
+              >
+                <Icon size={18} style={{ color: card.color }} />
               </div>
               <span
-                className={`text-[11px] font-semibold px-2 py-0.5 rounded-md ${
-                  card.changePositive
-                    ? 'bg-emerald-500/15 text-emerald-400'
-                    : 'bg-rose-500/15 text-rose-400'
-                }`}
+                className="text-[11px] font-semibold px-2 py-0.5 rounded-md"
+                style={{
+                  backgroundColor: card.changePositive ? 'rgba(16,185,129,0.1)' : 'rgba(244,63,94,0.1)',
+                  color: card.changePositive ? '#34d399' : '#fb7185',
+                }}
               >
                 {card.change}
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wider mb-2">{card.title}</p>
-            <p className="text-2xl font-bold text-white group-hover:scale-[1.02] transform transition-transform origin-left">{card.value}</p>
+            <div className="mt-4">
+              <p className="text-[12px] text-slate-400 font-semibold uppercase tracking-wider mb-2">{card.title}</p>
+              <p className="text-3xl font-bold text-white group-hover:scale-[1.02] transform transition-transform origin-left">{card.value}</p>
+            </div>
           </div>
         );
       })}

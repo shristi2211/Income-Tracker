@@ -149,17 +149,21 @@ export default function LoginPage() {
       storeLocalRecord(loginEmail, 'login'),
     ]);
     login(loginEmail);
-    navigate('/dashboard');
+    navigate('/app/dashboard');
   };
 
   const handleDemoLogin = async () => {
     const demoEmail = 'srishti@demo.com';
+    // Auto-accept consent for demo login so it's never blocked
+    localStorage.setItem(CONSENT_KEY, 'true');
+    setHasConsent(true);
+    setIsConsentBannerOpen(false);
     await Promise.all([
       recordConsentAPI(demoEmail),
       storeLocalRecord(demoEmail, 'demo'),
     ]);
     login(demoEmail);
-    navigate('/dashboard');
+    navigate('/app/dashboard');
   };
 
   // ── badge helper ────────────────────────────────────────────────────────
@@ -263,7 +267,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full bg-[#161616] rounded-lg p-3.5 text-white text-sm outline-none transition placeholder:text-gray-600"
+                  className="w-full bg-[#161616] rounded-xl p-4 text-white text-sm outline-none transition placeholder:text-gray-600 focus:ring-2 focus:ring-emerald-500/50"
                 />
                 {/* Inline status icon */}
                 {emailConsentStatus && (
@@ -289,7 +293,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="w-full bg-[#161616] rounded-lg p-3.5 pr-12 text-white text-sm outline-none transition placeholder:text-gray-600"
+                  className="w-full bg-[#161616] rounded-xl p-4 pr-12 text-white text-sm outline-none transition placeholder:text-gray-600 focus:ring-2 focus:ring-emerald-500/50"
                 />
                 <button
                   type="button"
@@ -329,9 +333,9 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={!hasConsent}
-              className={`w-full font-medium py-3.5 rounded-lg mt-2 transition shadow-lg text-sm tracking-wide ${
+              className={`w-full font-semibold py-4 rounded-xl mt-4 transition shadow-lg text-base tracking-wide ${
                 hasConsent
-                  ? 'bg-purple-600 hover:bg-purple-700 text-white shadow-purple-900/20'
+                  ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-white shadow-emerald-900/20'
                   : 'bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700'
               }`}
             >
@@ -352,12 +356,7 @@ export default function LoginPage() {
           {/* Demo Login */}
           <button
             onClick={handleDemoLogin}
-            disabled={!hasConsent}
-            className={`w-full border font-medium py-3.5 rounded-lg transition text-sm flex items-center justify-center gap-2 ${
-              hasConsent
-                ? 'border-gray-800 hover:border-gray-700 bg-[#161616] hover:bg-[#1a1a1a] text-gray-300 hover:text-white'
-                : 'border-gray-800 bg-[#0a0a0a] text-gray-600 cursor-not-allowed opacity-50'
-            }`}
+            className="w-full border border-gray-800 hover:border-gray-700 bg-[#161616] hover:bg-[#1a1a1a] text-gray-300 hover:text-white font-semibold py-4 rounded-xl transition text-base flex items-center justify-center gap-2 shadow-lg"
           >
             🚀 Demo Login
           </button>

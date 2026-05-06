@@ -45,29 +45,42 @@ export default function SettingsPage() {
     },
   ];
 
+  const glassCard = {
+    background: 'rgba(255,255,255,0.03)',
+    backdropFilter: 'blur(20px)',
+    border: '1px solid rgba(255,255,255,0.06)',
+    boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
+  };
+
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-5 max-w-4xl mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white">Settings</h1>
-        <p className="text-sm text-slate-500 mt-1">Manage your account and preferences</p>
+        <h1 className="text-3xl font-extrabold text-white">Settings</h1>
+        <p className="text-base text-slate-500 mt-2">Manage your account and preferences</p>
       </div>
 
       {/* Profile Card */}
-      <div className="glass-light rounded-2xl p-6 animate-fade-in">
+      <div className="rounded-[24px] p-6 animate-fade-in transition-all hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)]" style={glassCard}>
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-pink-500 flex items-center justify-center text-white text-xl font-bold shadow-xl shadow-violet-500/20">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-pink-500 flex items-center justify-center text-white text-lg font-bold shadow-xl shadow-violet-500/20">
             {user?.avatar || 'U'}
           </div>
           <div className="flex-1">
             <h3 className="text-lg font-semibold text-white">{user?.name || 'User'}</h3>
             <p className="text-sm text-slate-500">{user?.email || 'user@demo.com'}</p>
             <p className="text-xs text-emerald-400 mt-1 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
               Pro Account
             </p>
           </div>
-          <button className="px-4 py-2 rounded-xl border border-slate-700 text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+          <button
+            className="px-4 py-2 rounded-xl text-sm text-slate-400 hover:text-white transition-colors"
+            style={{
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.08)',
+            }}
+          >
             Edit Profile
           </button>
         </div>
@@ -79,11 +92,14 @@ export default function SettingsPage() {
         return (
           <div
             key={section.title}
-            className="glass-light rounded-2xl p-6 animate-fade-in"
-            style={{ animationDelay: `${(idx + 1) * 100}ms` }}
+            className="rounded-[24px] p-6 animate-fade-in transition-all hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
+            style={{ ...glassCard, animationDelay: `${(idx + 1) * 100}ms` }}
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 rounded-xl bg-slate-800">
+              <div
+                className="p-2 rounded-xl"
+                style={{ background: 'rgba(255,255,255,0.04)' }}
+              >
                 <Icon size={18} className="text-slate-400" />
               </div>
               <div>
@@ -91,15 +107,16 @@ export default function SettingsPage() {
                 <p className="text-xs text-slate-500">{section.description}</p>
               </div>
             </div>
-            <div className="divide-y divide-slate-800/50">
+            <div className="divide-y divide-white/[0.04]">
               {section.items.map(item => (
                 <div key={item.label} className="flex items-center justify-between py-3">
                   <span className="text-sm text-slate-400">{item.label}</span>
                   {item.type === 'toggle' ? (
                     <div
-                      className={`w-10 h-5.5 rounded-full relative cursor-pointer transition-colors ${
-                        item.enabled ? 'bg-emerald-500' : 'bg-slate-700'
-                      }`}
+                      className="w-10 h-5.5 rounded-full relative cursor-pointer transition-colors"
+                      style={{
+                        backgroundColor: item.enabled ? '#10b981' : 'rgba(255,255,255,0.08)',
+                      }}
                     >
                       <div
                         className={`absolute top-0.5 w-4.5 h-4.5 rounded-full bg-white shadow transition-transform ${
@@ -108,7 +125,10 @@ export default function SettingsPage() {
                       />
                     </div>
                   ) : (
-                    <span className="text-xs text-slate-500 px-3 py-1.5 bg-slate-800/80 rounded-lg">
+                    <span
+                      className="text-xs text-slate-500 px-3 py-1.5 rounded-lg"
+                      style={{ background: 'rgba(255,255,255,0.04)' }}
+                    >
                       {item.value}
                     </span>
                   )}
