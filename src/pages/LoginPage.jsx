@@ -7,6 +7,49 @@ import ConsentHistoryPanel from '../components/ConsentHistoryPanel';
 const STORAGE_KEY = 'arcompli_consent_records';
 const CONSENT_KEY = 'arcompli_consent_granted';
 
+const BANNER_TRANSLATIONS = {
+  en: {
+    name: "English",
+    title: "Email Communication Consent Required",
+    desc: "We need your consent to send you information about our data management solutions and pricing. This helps us provide you with relevant updates and personalized recommendations for your specific needs.",
+    dataToProcess: "Data to be processed with your consent:",
+    emailLabel: "Email Address:",
+    manageText: "You can manage or withdraw this consent anytime from the privacy settings.",
+    decline: "Decline",
+    acceptAll: "Accept All"
+  },
+  hi: {
+    name: "Hindi",
+    title: "ईमेल संचार सहमति आवश्यक है",
+    desc: "हमें हमारे डेटा प्रबंधन समाधानों और मूल्य निर्धारण के बारे में आपको जानकारी भेजने के लिए आपकी सहमति की आवश्यकता है। इससे हमें आपकी विशिष्ट आवश्यकताओं के लिए प्रासंगिक अपडेट और व्यक्तिगत अनुशंसाएं प्रदान करने में मदद मिलती है।",
+    dataToProcess: "आपकी सहमति से संसाधित किया जाने वाला डेटा:",
+    emailLabel: "ईमेल पता:",
+    manageText: "आप गोपनीयता सेटिंग्स से किसी भी समय इस सहमति को प्रबंधित या वापस ले सकते हैं।",
+    decline: "अस्वीकार करें",
+    acceptAll: "सभी स्वीकार करें"
+  },
+  es: {
+    name: "Español",
+    title: "Consentimiento de comunicación requerido",
+    desc: "Necesitamos su consentimiento para enviarle información sobre nuestras soluciones de gestión de datos y precios. Esto nos ayuda a proporcionarle actualizaciones relevantes y recomendaciones personalizadas.",
+    dataToProcess: "Datos a procesar con su consentimiento:",
+    emailLabel: "Dirección de correo electrónico:",
+    manageText: "Puede gestionar o retirar este consentimiento en cualquier momento desde la configuración de privacidad.",
+    decline: "Rechazar",
+    acceptAll: "Aceptar todo"
+  },
+  fr: {
+    name: "Français",
+    title: "Consentement à la communication requis",
+    desc: "Nous avons besoin de votre consentement pour vous envoyer des informations sur nos solutions de gestion de données et nos tarifs. Cela nous aide à vous fournir des mises à jour pertinentes et des recommandations personnalisées.",
+    dataToProcess: "Données à traiter avec votre consentement :",
+    emailLabel: "Adresse e-mail :",
+    manageText: "Vous pouvez gérer ou retirer ce consentement à tout moment depuis les paramètres de confidentialité.",
+    decline: "Refuser",
+    acceptAll: "Tout accepter"
+  }
+};
+
 // ── helpers ──────────────────────────────────────────────────────────────────
 
 function loadRecords() {
@@ -52,6 +95,10 @@ export default function LoginPage() {
   const [isConsentBannerOpen, setIsConsentBannerOpen] = useState(true);
   const [hasConsent, setHasConsent] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+
+  // Language for consent banner
+  const [lang, setLang] = useState('en');
+  const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
   // Live consent badge for typed email
   const [emailConsentStatus, setEmailConsentStatus] = useState(null); // null | 'granted' | 'revoked'
@@ -389,30 +436,54 @@ export default function LoginPage() {
           style={{ animation: 'slideUp 0.4s ease-out forwards' }}
         >
           {/* Light shadow above */}
-          <div className="h-6 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
+          <div className="h-6 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
 
-          <div className="bg-white text-gray-800 shadow-2xl shadow-black/20 border-t border-gray-200">
+          <div className="bg-[#0b0e17] text-slate-200 shadow-2xl shadow-black/80 border-t border-white/10">
             <div className="max-w-5xl mx-auto px-6 py-5">
 
               {/* Top row: title + language + close */}
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <ShieldCheck size={18} className="text-teal-600" />
-                  <h3 className="text-[15px] font-bold text-gray-800">
-                    Email Communication Consent Required
+                  <ShieldCheck size={18} className="text-cyan-500" />
+                  <h3 className="text-[15px] font-bold text-slate-200">
+                    {BANNER_TRANSLATIONS[lang].title}
                   </h3>
                 </div>
-                <div className="flex items-center gap-3">
-                  {/* Language selector (decorative) */}
-                  <div className="flex items-center gap-1.5 text-xs text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    <span>English</span>
-                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                <div className="flex items-center gap-3 relative">
+                  {/* Language selector */}
+                  <div className="relative">
+                    <button
+                      onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
+                      className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-200 transition px-2 py-1 rounded"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                      <span>{BANNER_TRANSLATIONS[lang].name}</span>
+                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className={`transition-transform ${isLangDropdownOpen ? 'rotate-180' : ''}`}><path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </button>
+                    
+                    {/* Dropdown Menu */}
+                    {isLangDropdownOpen && (
+                      <div className="absolute bottom-full right-0 mb-2 w-32 bg-slate-800 border border-slate-700 rounded-lg shadow-xl overflow-hidden z-50">
+                        {Object.entries(BANNER_TRANSLATIONS).map(([key, config]) => (
+                          <button
+                            key={key}
+                            onClick={() => {
+                              setLang(key);
+                              setIsLangDropdownOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-2 text-xs transition-colors ${lang === key ? 'bg-cyan-500/20 text-cyan-400' : 'text-slate-300 hover:bg-slate-700'}`}
+                          >
+                            {config.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
+                  
                   {/* Close X */}
                   <button
                     onClick={() => setIsConsentBannerOpen(false)}
-                    className="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-700 transition"
+                    className="p-1 rounded hover:bg-slate-800 text-slate-500 hover:text-slate-300 transition"
                   >
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1L13 13M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
                   </button>
@@ -420,9 +491,8 @@ export default function LoginPage() {
               </div>
 
               {/* Description */}
-              <p className="text-[13px] text-gray-500 leading-relaxed mb-4 max-w-3xl">
-                We need your consent to send you information about our data management solutions and pricing.
-                This helps us provide you with relevant updates and personalized recommendations for your specific needs.
+              <p className="text-[13px] text-slate-400 leading-relaxed mb-4 max-w-3xl">
+                {BANNER_TRANSLATIONS[lang].desc}
               </p>
 
               {/* Data row + buttons */}
@@ -430,16 +500,16 @@ export default function LoginPage() {
 
                 {/* Data to process */}
                 <div>
-                  <p className="text-xs text-gray-500 font-medium mb-1">Data to be processed with your consent:</p>
+                  <p className="text-xs text-slate-500 font-medium mb-1">{BANNER_TRANSLATIONS[lang].dataToProcess}</p>
                   <div className="flex items-center gap-2">
-                    <span className="inline-block w-2 h-2 rounded-full bg-teal-500" />
-                    <span className="text-[13px] text-gray-700">
-                      Email Address: <strong className="text-teal-700">{email || 'your-email@example.com'}</strong>
+                    <span className="inline-block w-2 h-2 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.5)]" />
+                    <span className="text-[13px] text-slate-300">
+                      {BANNER_TRANSLATIONS[lang].emailLabel} <strong className="text-cyan-400">{email || 'your-email@example.com'}</strong>
                     </span>
                   </div>
-                  <p className="text-[11px] text-gray-400 mt-2 flex items-center gap-1">
+                  <p className="text-[11px] text-slate-500 mt-2 flex items-center gap-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-                    You can manage or withdraw this consent anytime from the privacy settings.
+                    {BANNER_TRANSLATIONS[lang].manageText}
                   </p>
                 </div>
 
@@ -447,15 +517,15 @@ export default function LoginPage() {
                 <div className="flex items-center gap-3 shrink-0">
                   <button
                     onClick={() => setIsConsentBannerOpen(false)}
-                    className="px-5 py-2 text-[13px] font-medium text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition"
+                    className="px-5 py-2 text-[13px] font-medium text-slate-400 border border-slate-700 bg-slate-800/30 rounded-lg hover:bg-slate-800 hover:text-slate-200 hover:border-slate-600 transition"
                   >
-                    Decline
+                    {BANNER_TRANSLATIONS[lang].decline}
                   </button>
                   <button
                     onClick={handleAcceptConsent}
-                    className="px-5 py-2 text-[13px] font-semibold text-white bg-teal-600 hover:bg-teal-700 rounded-lg transition shadow-sm shadow-teal-200"
+                    className="px-5 py-2 text-[13px] font-bold text-slate-900 bg-cyan-500 hover:bg-cyan-400 rounded-lg transition shadow-[0_0_15px_rgba(6,182,212,0.3)]"
                   >
-                    Accept All
+                    {BANNER_TRANSLATIONS[lang].acceptAll}
                   </button>
                 </div>
               </div>
